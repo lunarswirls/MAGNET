@@ -1,0 +1,8 @@
+.DS_Store
+.idea/misc.xml
+/gradiometry_algorithm/__pycache__
+/gradiometry_tests/__pycache__
+/.idea
+/magnetpy/utilities/__pycache__
+/magnetpy/__pycache__
+/magnetpy/gradiometry_algorithm/__pycache__
