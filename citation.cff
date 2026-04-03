@@ -1,0 +1,20 @@
+title: "MAGNETPy"
+message: "If you use this software, please cite it as below."
+abstract: "MAGNETPy is an open-source software suite that utilizes a gradient-based solver and nonlinear optimization
+methods to minimize noise in magnetometer data from a tetrahedral array of sensors. This technique was developed for
+the Lunar Vertex mission, and is designed to lessen magnetic cleanliness requirements on future missions that may carry
+a low-cost array of magnetometers in a similar array."
+authors:
+- affiliation: "Umeå University"
+  family-names: "Waller"
+  given-names: "C. Dany"
+  orcid: "https://orcid.org/0000-0002-6310-3766"
+type: software
+url: "https://github.com/lunarswirls/MAGNET"
+date-released: 2026-04-03
+version: 2026.04.03a
+cff-version: 1.2.0
+keywords:
+- Magnetic Fields
+license:
+- gpl-3.0
