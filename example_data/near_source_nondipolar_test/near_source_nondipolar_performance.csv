@@ -1,0 +1,2 @@
+Sources,Closest source distance (m),Array maximum baseline (m),Single-dipole relative RMS misfit,Iterations,Initial RMS residual (nT),Final RMS residual (nT),Residual reduction,Status
+3,0.17146428199482247,0.1273255767707337,0.5450887344681873,6,48.97345995975853,0.23337477433839626,0.995234668440209,PASS

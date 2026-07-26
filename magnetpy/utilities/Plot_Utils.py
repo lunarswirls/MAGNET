@@ -16,6 +16,11 @@ from matplotlib.ticker import MaxNLocator
 import matplotlib.dates as mdates
 
 
+def _add_residual_target(ax):
+    target_line = ax.axhline(1.5, color='black', linestyle=':', linewidth=1.5, label='1.5 nT target')
+    ax.legend(handles=[target_line], fontsize='small', loc='upper right')
+
+
 def rmse_quicklook(bfield_df, input_dir, test, n):
     # Create a directory or avoid error if it exists
     test_dir = os.path.join(input_dir, test)
@@ -192,19 +197,19 @@ def vector_final_plot(bfield_df, input_dir, test):
     ax1.legend(['X', 'Y', 'Z'], fontsize='medium', ncol=3, loc='lower left')
     ax2.legend(['True X', 'Final X', 'True Y', 'Final Y', 'True Z', 'Final Z'],
                fontsize='small', ncol=3, loc='lower left')
-    ax3.get_legend().remove()
+    _add_residual_target(ax3)
     ax4.legend(['X', 'Y', 'Z'], fontsize='medium', ncol=3, loc='lower left')
     ax5.legend(['True X', 'Final X', 'True Y', 'Final Y', 'True Z', 'Final Z'],
                fontsize='small', ncol=3, loc='lower left')
-    ax6.get_legend().remove()
+    _add_residual_target(ax6)
     ax7.legend(['X', 'Y', 'Z'], fontsize='medium', ncol=3, loc='lower left')
     ax8.legend(['True X', 'Final X', 'True Y', 'Final Y', 'True Z', 'Final Z'],
                fontsize='small', ncol=3, loc='lower left')
-    ax9.get_legend().remove()
+    _add_residual_target(ax9)
     ax10.legend(['X', 'Y', 'Z'], fontsize='medium', ncol=3, loc='lower left')
     ax11.legend(['True X', 'Final X', 'True Y', 'Final Y', 'True Z', 'Final Z'],
                 fontsize='small', ncol=3, loc='lower left')
-    ax12.get_legend().remove()
+    _add_residual_target(ax12)
 
     ymin1, ymax1 = ax1.get_ylim()
     ymin4, ymax4 = ax4.get_ylim()
@@ -356,16 +361,16 @@ def mag_final_plot(bfield_df, input_dir, test):
 
     ax1.legend(['Uncorrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
     ax2.legend(['Corrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
-    ax3.get_legend().remove()
+    _add_residual_target(ax3)
     ax4.legend(['Uncorrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
     ax5.legend(['Corrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
-    ax6.get_legend().remove()
+    _add_residual_target(ax6)
     ax7.legend(['Uncorrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
     ax8.legend(['Corrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
-    ax9.get_legend().remove()
+    _add_residual_target(ax9)
     ax10.legend(['Uncorrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
     ax11.legend(['Corrected $B_{mag}$', 'True $B_{mag}$'], fontsize='medium', ncol=2, loc='lower left')
-    ax12.get_legend().remove()
+    _add_residual_target(ax12)
 
     ymin1, ymax1 = ax1.get_ylim()
     ymin4, ymax4 = ax4.get_ylim()
@@ -480,7 +485,7 @@ def center_mag_final_plot(bfield_df_in, input_dir, test):
 
     ax1.legend(['Uncorrected |B|', 'True |B|'], fontsize='medium', ncol=2, loc='lower left')
     ax2.legend(['Corrected |B|', 'True |B|'], fontsize='medium', ncol=2, loc='lower left')
-    ax3.get_legend().remove()
+    _add_residual_target(ax3)
 
     if '500km' in test:
         plt.suptitle("WMM-2025 Simulation", fontsize=20)

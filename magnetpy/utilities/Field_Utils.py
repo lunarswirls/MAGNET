@@ -621,6 +621,81 @@ def generate_noisy_field(x_axis, y_axis, z_axis):
     return bfield_df, thruster_df
 
 
+def generate_near_source_nondipolar_field():
+    """
+    Generate a host-platform test field from three nearby simultaneous sources
+
+    The source region is comparable in size to the sensor array and the source
+    moments are not parallel, so their combined field cannot be represented by
+    a single point dipole across all four sensors
+
+    :return: magnetic field dataframe and source state dataframe
+    """
+    sample_rate = 10
+    duration = 16
+    time_arr = np.arange(sample_rate * duration) / sample_rate
+    start_time = datetime.datetime(2025, 1, 1, 0, 0, 0)
+    times = pd.date_range(start_time, periods=len(time_arr), freq='100ms').to_list()
+
+    bg_field_nt = np.array([200.0, -50.0, 400.0])
+    bg_field = bg_field_nt * 1e-9
+    bg_fields = np.tile(bg_field, (len(time_arr), 1))
+    b_fields = [bg_fields.copy() for _ in range(4)]
+
+    sources = [
+        {
+            'moment': 0.0030,
+            'direction': np.array([0.8, -0.3, 0.5]),
+            'position': np.array([0.16, 0.09, 0.04]),
+        },
+        {
+            'moment': 0.0024,
+            'direction': np.array([-0.2, 0.9, 0.4]),
+            'position': np.array([0.11, -0.14, 0.07]),
+        },
+        {
+            'moment': 0.0018,
+            'direction': np.array([0.3, 0.1, -0.95]),
+            'position': np.array([-0.13, 0.10, -0.05]),
+        },
+    ]
+
+    source_fields = [np.zeros(3) for _ in range(4)]
+    for source in sources:
+        direction = source['direction'] / np.linalg.norm(source['direction'])
+        distance = np.linalg.norm(source['position'])
+        position_hat = source['position'] / distance
+        fields = tc.mag_array(source['moment'], direction, distance, position_hat)
+        source_fields = [total + field for total, field in zip(source_fields, fields)]
+
+    event_start = 40
+    event_end = 120
+    for sensor_index in range(4):
+        b_fields[sensor_index][event_start:event_end] += source_fields[sensor_index]
+
+    bfield_df = pd.DataFrame(b_fields[0], columns=['B1X', 'B1Y', 'B1Z'])
+    for sensor_index in range(1, 4):
+        sensor_id = sensor_index + 1
+        bfield_df[f'B{sensor_id}X'] = b_fields[sensor_index][:, 0]
+        bfield_df[f'B{sensor_id}Y'] = b_fields[sensor_index][:, 1]
+        bfield_df[f'B{sensor_id}Z'] = b_fields[sensor_index][:, 2]
+
+    bfield_df['BGX'] = bg_field_nt[0]
+    bfield_df['BGY'] = bg_field_nt[1]
+    bfield_df['BGZ'] = bg_field_nt[2]
+    bfield_df['BG_mag'] = np.linalg.norm(bg_field_nt)
+    bfield_df['time_raw'] = time_arr
+    bfield_df['time_fmt'] = times
+
+    source_state = np.zeros((len(time_arr), len(sources)), dtype=int)
+    source_state[event_start:event_end] = 1
+    source_df = pd.DataFrame(source_state, columns=['Source 1', 'Source 2', 'Source 3'])
+    source_df['Time'] = time_arr
+    source_df.attrs['source_parameters'] = sources
+
+    return bfield_df, source_df
+
+
 def generate_sine_test_field(wave_amplitude: np.ndarray, wave_frequency: np.ndarray, phase_shift:np.ndarray=np.array([0,0,0])):
     """
     This field simulates thrusters firing on top of a slowly varying sine wave.

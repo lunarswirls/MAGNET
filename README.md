@@ -38,6 +38,22 @@ mission and instrument suites are available in [TBD]().
 ## Visuals
 Example of noise cleaning of simulation data from [Waller et al. 2025 (LPSC)](https://www.hou.usra.edu/meetings/lpsc2025/pdf/2592.pdf).
 
+### Near-source non-dipolar test
+
+The host-platform test superposes three simultaneous sources with different moment directions at distances comparable
+to the array baseline. This produces a field with a large single-dipole model misfit and tests whether repeated MAGNET
+corrections can recover the ambient field despite the non-dipolar interference.
+
+Run the test from the repository root with:
+
+```bash
+python -m magnetpy.paper_figs.near_source_nondipolar_test_Fig9
+```
+
+The field generator is available as `generate_near_source_nondipolar_field()` in `Field_Utils.py`, and the runner writes
+the source parameters, correction metrics, corrected time series, and summary figure to
+`example_data/near_source_nondipolar_test/`.
+
 
 ## Authors and acknowledgment
 Primary Author: [Dany Waller](danywaller.github.io)
