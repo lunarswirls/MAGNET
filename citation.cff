@@ -11,8 +11,12 @@ authors:
   orcid: "https://orcid.org/0000-0002-6310-3766"
 type: software
 url: "https://github.com/lunarswirls/MAGNET"
-date-released: 2026-04-03
-version: 2026.04.03a
+identifiers:
+  - description: The MAGNET algorithm publication preprint
+    type: doi
+    value: "10.22541/essoar.15004069/v1"
+date-released: 2026-07-26
+version: 2026.07.26a
 cff-version: 1.2.0
 keywords:
 - Magnetic Fields
